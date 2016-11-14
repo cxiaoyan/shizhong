@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<!--<script type="text/javascript" src="js/jquery.js"></script>-->
+		<!--<script type="text/javascript" src="js/index.js"></script>-->
+	</head>
+	<style type="text/css">
+		canvas{
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			z-index: 20;
+		}
+		.img{
+			position: absolute;
+			top: 77px;
+			left: 490px;
+			z-index: 10;
+		}
+	</style>
+	<body>
+		<canvas id="canvas" width="450" height="450"></canvas>
+		<img class="img" src="img/54.png"/>
+	</body>
+	<script>
+		//		'use strict';严格模式
+		//JavaScript 语言精粹   (不包括dom)
+		//JavaScript 权威指南
+		//		严格模式
+		var canvas=document.getElementById("canvas");
+		var ctx=canvas.getContext('2d');
+		
+		
+//		function path(){
+//			ctx.beginPath();
+//			for(var i=0;i<15;i++){
+//				ctx.moveTo(15.5,15.5+i*30);
+//				ctx.lineTo(435.5,15.5+i*30);
+//				ctx.moveTo(15.5+i*30,15.5);
+//				ctx.lineTo(15.5+i*30,435.5);
+//			}
+//			ctx.closePath();
+//			ctx.stroke();
+//		}
+//		path()
+//		
+//		function cir(){
+//			ctx.beginPath();
+//			ctx.arc(7.5*30,7.5*30,80,0,Math.PI/180*angle)
+//			ctx.lineTo(7.5*30,7.5*30);
+//			ctx.closePath();
+//			ctx.fill();
+//		}
+////		cir()
+//		
+//		var angle=0;
+//		var timeId=setInterval(function(){
+//			ctx.clearRect(0,0,450,450);
+//			path();
+//			cir();
+//			if(angle===360){
+//				clearInterval(timeId);
+//			}
+//			angle+=1;
+//		},30)
+////		Math.PI/180*37
+////		用的是弧度
+////		油漆
+////		要改只能再喷漆
+////		清除矩形区域
+////		clearRect()
+//		ctx.closePath();
+//		ctx.stroke();
+//		ctx.beginPath()
+//		ctx.rect(0,0,100,100)
+//		ctx.closePath();
+//		ctx.fill();
+		
+		
+//		5.动画布，改变坐标系统（在这之前必须进行保存）
+//		保存（画布和画笔的状态）
+//		ctx.save();
+//		ctx.translate(7.5*30,7.5*30)
+		function miaozhen(){
+			ctx.save();
+			var date=new Date();
+			var s=date.getSeconds();
+			ctx.rotate(Math.PI/180*6*s)
+			ctx.beginPath();
+			ctx.arc(0,0,6,0,Math.PI*2);
+			ctx.moveTo(0,6);
+			ctx.lineTo(0,20);
+			ctx.moveTo(0,-6);
+			ctx.lineTo(0,-80);
+			ctx.closePath();
+			ctx.stroke();
+			ctx.restore();
+		}
+		function fenzhen(){
+			ctx.save();
+			var date=new Date();
+			var s=date.getSeconds();
+			var m=date.getMinutes();
+			var deg=(m*60+s)/10*Math.PI/180;
+			ctx.rotate(deg);
+			ctx.beginPath();
+			ctx.arc(0,0,6,0,Math.PI*2);
+			ctx.moveTo(0,6);
+			ctx.lineTo(0,20);
+			ctx.moveTo(0,-6);
+			ctx.lineTo(0,-60);
+			ctx.closePath();
+			ctx.stroke();
+			ctx.restore();
+		}
+		function shi(){
+			ctx.save();
+			var date=new Date();
+			var s=date.getSeconds();
+			var m=date.getMinutes();
+			var h=date.getHours();
+			var deg=(h*3600+m*60+s)/120*Math.PI/180;
+			ctx.rotate(deg);
+			ctx.beginPath();
+			ctx.arc(0,0,6,0,Math.PI*2);
+			ctx.moveTo(0,6);
+			ctx.lineTo(0,20);
+			ctx.moveTo(0,-6);
+			ctx.lineTo(0,-50);
+			ctx.closePath();
+			ctx.stroke();
+			ctx.restore();
+		}
+//		
+		function pan(){
+			ctx.save();
+			for(var i=0;i<60;i++){
+				ctx.beginPath();
+				if(i%5==0){
+					ctx.moveTo(0,-120);
+				}else{
+					ctx.moveTo(0,-135);
+				}
+//				ctx.moveTo(0,-120);
+				ctx.lineTo(0,-150);
+				ctx.moveTo(0,-120);
+				ctx.closePath();
+				ctx.stroke();
+				ctx.rotate(Math.PI/180*6)
+			}
+			
+			ctx.restore();
+		}
+//		ctx.translate(7.5*30,7.5*30);
+//		zhen();
+//		pan();
+		var de=0;
+		var dr=270;
+		function render(){
+			ctx.clearRect(0,0,450,450);
+			ctx.save();
+			ctx.translate(7.5*30,7.5*30);
+			miaozhen();
+			fenzhen();
+			shi();
+			
+			ctx.save();
+			ctx.beginPath();
+			ctx.rotate(Math.PI/180*de);
+			ctx.arc(0,-153,10,0,Math.PI*2);
+			ctx.closePath();
+			ctx.fill();
+			ctx.restore();
+			
+			
+			ctx.save();
+			ctx.rotate(-90*Math.PI/180);
+			ctx.beginPath();
+			ctx.arc(0,0,153,0,Math.PI/180*de);
+			ctx.moveTo(0,-153)
+			ctx.closePath();
+			ctx.stroke();
+			ctx.restore();	
+			
+			de+=1;
+			if(de===360){
+				de=0;
+			}
+			
+//			pan();
+			ctx.restore();	
+		}
+		render();
+		setInterval(render,20)
+		
+//		ctx.restore();
+//		恢复（改变之前画布和画笔的状态）
+		
+//		ctx.beginPath()
+//		ctx.rect(101,0,100,100)
+//		ctx.closePath();
+//		ctx.fill();
+		
+//		6、保存画布状态，和回复画布状态（只包含位置，旋转程度，缩放程度，画笔样式）
+//			他不会保存图形，只是画布和画笔状态
+//			save()  restore()
+		
+
+		
+	</script>
+</html>
